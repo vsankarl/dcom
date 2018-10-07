@@ -8,6 +8,7 @@
 
 
 2. Implementation:
+
 	2.1 Server:
 		The server operates as multithreaded. NamedPipe is used in blocking mode, however the message exchange happens on separte thread, the main thread continues to service incoming client reuqest without getting blocked.
 		Class RPCServer runs  the mainthread which creates ServerMessageHandler. ServerMessageHandler abstracts the waiting for a client connection, exchanging message with connected client in a separate thread over named pipe. When a client connects, ServerMessageHandler spawns a separte thread to exchange message with that client and the main thread continues to wait for new connection by creating new ServerMessageHandler. 
@@ -37,12 +38,11 @@
 		Primitive - RPCServer -> ServerMessageHandler -> ObjectManager -> ServerStub 
 		Custom object - RPCServer -> ServerMessageHandler -> ObjectManager -> ServerStub -> Actual custom object -> custom object operation
 
-		===============================================================================
-	
 	2.2 Client:
 		RPCClient provide two broad functionality under synchronous and asynchronous mode. 
-		 - Create primtive / custom object.
-		 - Get primitive data or invoke remote operation.
+
+			- Create primtive / custom object.
+			- Get primitive data or invoke remote operation.
 
 		These are exposed as public and protected API's.
 		The public API's help caller to deal with primitive data type. The protected API's helps custom classes to deal with same. The custom class inherits RPCClient to leverage protected api's and expose its public operation hiding the message exchange details.
@@ -50,9 +50,8 @@
 	2.2.1 Object creation and invocation:
 		Client and server exchange messages using pre conceived protocol.  Please refer to Marshaller.h for actual wire details. There are two broad functionalities
 
-		1. Global functions - Creation of custom objects, Cretion of primitive data, Deletion
-		2. Operation on objects - For custom objects it would invoke appropriate operation. For primitve objects the primitve data is fetched.
-
+			-  Global functions - Creation of custom objects, Cretion of primitive data, Deletion
+			-  Operation on objects - For custom objects it would invoke appropriate operation. For primitve objects the primitve data is fetched.
 
 		For primtive data type the parameters are converted into wire format inside of RPCClient class. With custom class, the object operation converts the parameters into wire format using Marshaller and the message are exchanged using RPCClient protected api's.
 
@@ -65,43 +64,39 @@
 
 	2.2.3 Flow:
 		Primtive - Test program -> RPCCLient -> ClientMessageHandler
-
 		Custom class - Test program -> Custom class -> RPCClient -> ClientMessageHandler
-
-		===============================================================================
 
 	2.3 Custom class protocol:
 		In order for client and server to map a method/operation on a class, a unique id's are needed. These are called disposition id's or disp id. They are created compile time as a part of interface definition and shared between client and server. The interface definition are abstract base class that enforces the class contract. 
 		Global operation - create instance int/string, delete instance are hardcoded protocol.	
-		===============================================================================
 
 	2.4 Marshaller: 
 		Class abstracts the protocol that's understood by the client and server. And provide way to deserialize/serialize the data into wire packet.  
 
-	2.5 Error code:
-		For error codes please refer constants.h
+	2.5 Error code and other constants:
+		Please refer constants.h
 
-Execution:
-	1. Open a command prompt
+3. Execution:
+	3.1. Open a command prompt
 	 <checkout dir>/ClientServer/bin/server.exe <Press ENTER>
 
-	2. Open a command prompt
+	3.2. Open a command prompt
 		<checkout dir>/ClientServer/bin/client.exe <Press ENTER>
 
-Future:
-	1. RPC format
+4. Future:
+	4.1. RPC format
 	   Include the ability to send length, parameter type, qualifiers. Currently the framework supports int and string.
 	   See Marshaller.h for detail. 
 
-	2. Boiler plate macros.
+	4.2. Boiler plate macros.
 	   Current way hardcode the number of parameter. A variadic template based approach would
 	   give the ability to have single uniform macro extending to any number of parameters. 	
 	   See RPC.h for details.
 
-	3. Reference counting 
+	4.3. Reference counting 
 	    Server need to absorb the notion of keeping a reference count. Helps to share
 	    objects.  
 
-	4. Persistency
+	4.4. Persistency
 	     Provider a moniker based support, so that the life time of object can stay past
 	     the proxy object.
