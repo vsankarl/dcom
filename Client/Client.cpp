@@ -55,7 +55,7 @@ SendAndReceivePrimitiveDataTypes(T & t)
 		cout << "\n\n************** Synchronous test - " << type << " **************" << endl;
 
 		RPCClient client;
-		HANDLE  remoteObject;
+		HANDLE  remoteObject = NULL;
 		long errorCode = client.SendPrimitiveData<T>(t, remoteObject);
 
 		cout << "\n\t1. [Function] - SendPrimitivecDataAsync() " << "[ErrorCode] " << errorCode;
