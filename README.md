@@ -1,11 +1,12 @@
 # ClientServer
 
+## 1. Goal:
+	  Project creates a C++ client server distributed framework. Demonstrates the idea of how c++ object can be hosted remotely(out of process) and accessed by clients. RPC used is named pipe though it can be replaced by other transports. 
 
-1.  Functionalities:
-
-	1.1 Supports both async and sync call from client.
-	1.2 Ability to create, delete, and retrive primitive data types.
-	1.3 Ability to create custom objects and invoke operations.
+##  2. Functionalities:
+	   - Supports both async and sync call from client.
+	   - Ability to create, delete, and retrive primitive data types.
+	   - Ability to create custom objects and invoke operations.
 
 
 2. Implementation:
@@ -13,7 +14,7 @@
 	2.1 Server:
 	
 		The server operates as multithreaded. NamedPipe is used in blocking mode, however the message exchange happens on separte thread, the main thread continues to service incoming client reuqest without getting blocked.
-		Class RPCServer runs  the mainthread which creates ServerMessageHandler. ServerMessageHandler abstracts the waiting for a client connection, exchanging message with connected client in a separate thread over named pipe. When a client connects, ServerMessageHandler spawns a separte thread to exchange message with that client and the main thread continues to wait for new connection by creating new ServerMessageHandler. 
+		Class RPCServer runs  the mainthread which creates ServerMessageHandler. ServerMessageHandler abstracts the waiting for a client connection, exchanging message with connected client in a separate thread over named pipe. When a client connects, ServerMessageHandler spawns a separte thread to exchange message with that client and the main thread clontinues to wait for new connection by creating new ServerMessageHandler. 
 		RPCServer book keeps all the ServerMessageHandler objects to handle graceful exit.
 
 	2.1.1 Object creation and invocation:
