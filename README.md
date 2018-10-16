@@ -1,7 +1,7 @@
 # ClientServer
 
 ## 1. Goal:
-	  Project creates a C++ client server distributed framework. Demonstrates the idea of how c++ object can be hosted remotely(out of process) and accessed by clients. RPC used is named pipe though it can be replaced by other transports. 
+Project creates a C++ client server distributed framework. Demonstrates the idea of how c++ object can be hosted remotely(out of process) and accessed by clients. RPC used is named pipe though it can be replaced by other transports. 
 
 ##  2. Functionalities:
 	   - Supports both async and sync call from client.
