@@ -8,21 +8,20 @@ Project creates a C++ client server distributed framework. Demonstrates the idea
       - Ability to create, delete, and retrive primitive data types.
       - Ability to create custom objects and invoke operations.
 
-
 ####  3. Implementation:
       3.1 Server: 
-          The server operates as multithreaded. NamedPipe is used in blocking mode, however the message exchange happens on separte thread, the main thread continues to service incoming client reuqest without getting blocked. Class RPCServer runs  the mainthread which creates ServerMessageHandler. ServerMessageHandler abstracts the waiting for a client connection, exchanging message with connected client in a separate thread over named pipe. When a client connects, ServerMessageHandler spawns a separte thread to exchange message with that client and the main thread clontinues to wait for new connection by creating new ServerMessageHandler. RPCServer book keeps all the ServerMessageHandler objects to handle graceful exit.
+          The server operates as multithreaded. NamedPipe is used in blocking mode, however the message exchange happens on separte thread, the main thread continues to service incoming client request without getting blocked. Class RPCServer runs  the mainthread which creates ServerMessageHandler. ServerMessageHandler abstracts the waiting for a client connection, exchanging message with connected client in a separate thread over named pipe. When a client connects, ServerMessageHandler spawns a separte thread to exchange message with that client and the main thread clontinues to wait for new connection by creating new ServerMessageHandler. RPCServer book keeps all the ServerMessageHandler objects to handle graceful exit.
 
       3.1.1 Object creation and invocation:
-	    Client and server exchange messages using pre conceived protocol.  Please refer to Marshaller.h for actual wire details. There are two broad functionalities
-	    - 1. Global functions - Creation of custom objects, Cretion of primitive data, Deletion
-	    - 2. Operation on objects - For custom objects it would invoke appropriate operation. For primitve objects the primitve data is fetched.
-	    At the class level, ServerMessageHandler on accepting an client connect call, proceeds with the message exchange. It reads the message over the named pipe and sends it over to ObjectManager object for processing it. ObjectManager abstracts and deals with what to do on identifying certain message packet. Incase of creation of object, it creates a ServerStub, pass the necessary value and bookkeeps in its internal hash set data structure. Incase of invocation of operation, it searches for a ServerStub object using the client provided object id (an opaque pointer), and calls invoke operation. If the object fetched is a primtive object it simple returns the initially stored data. If the object is a custom object as in the case Calculator, it further reads the message for disp id (an id used  to identify function).  Using disp id server stub identifies the actual function to be invoked on its internally stored object. Ex - Calculator->Add. Serverstub calls the function and the actual fucntion fills the result, which get passed to downstream objectmanager, ServerMessageHandler. The final response is send back to the wire by the ServerMessageHandler.
+            Client and server exchange messages using pre conceived protocol.  Please refer to Marshaller.h for actual wire details. There are two broad functionalities
+            - 1. Global functions - Creation of custom objects, Cretion of primitive data, Deletion
+            - 2. Operation on objects - For custom objects it would invoke appropriate operation. For primitve objects the primitve data is fetched. 
+            At the class level, ServerMessageHandler on accepting an client connect call, proceeds with the message exchange. It reads the message over the named pipe and sends it over to ObjectManager object for processing it. ObjectManager abstracts and deals with what to do on identifying certain message packet. Incase of creation of object, it creates a ServerStub, pass the necessary value and bookkeeps in its internal hash set data structure. Incase of invocation of operation, it searches for a ServerStub object using the client provided object id (an opaque pointer), and calls invoke operation. If the object fetched is a primtive object it simple returns the initially stored data. If the object is a custom object as in the case Calculator, it further reads the message for disp id (an id used  to identify function).  Using disp id server stub identifies the actual function to be invoked on its internally stored object. Ex - Calculator->Add. Serverstub calls the function and the actual fucntion fills the result, which get passed to downstream objectmanager, ServerMessageHandler. The final response is send back to the wire by the ServerMessageHandler.
 
-	3.1.2 Flow:
-	      - Creation primitive or custom object
+        3.1.2 Flow:
+              - Creation primitive or custom object
 		RPCServer -> ServerMessageHandler -> ObjectManager -> create IServerStub
-	      - Invocation
+              - Invocation
 		Primitive - RPCServer -> ServerMessageHandler -> ObjectManager -> ServerStub 
 		Custom object - RPCServer -> ServerMessageHandler -> ObjectManager -> ServerStub -> Actual custom object -> custom object operation
 
@@ -44,7 +43,7 @@ Project creates a C++ client server distributed framework. Demonstrates the idea
 		RPCCient book keeps all the asynchronous message handler request for graceful exit. 
 
 	3.2.3 Flow:
-  	P     Primtive - Test program -> RPCCLient -> ClientMessageHandler
+  	      Primtive - Test program -> RPCCLient -> ClientMessageHandler
 	      Custom class - Test program -> Custom class -> RPCClient -> ClientMessageHandler
 
 	3.3 Custom class protocol:
