@@ -1,5 +1,5 @@
 # ClientServer
-The project demonstrates how to implement out of process c++ object and create / invoke from another process. Both the client and server communicates via pipe.   
+The project demonstrates how to implement out of process c++ object and create / invoke from a client process. Both the client and server communicates via pipe.   
 
 1.  Functionalities:
 
