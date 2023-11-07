@@ -1,5 +1,5 @@
 # Summary
-Foundational and minimalistic framework illustrating the interprocess hosting of a C++ Object, enabling invocation by a Remote Client. The network layer between client and serrver is implemented as pipes.
+Foundational and minimalistic framework illustrating the interprocess hosting of a C++ Object, enabling invocation by a Remote Client. The network layer between client and server is implemented as pipes.
 
 1.  Functionalities:
 
