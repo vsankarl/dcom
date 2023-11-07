@@ -1,5 +1,5 @@
 # Summary
-The project demonstrates how to implement out of process c++ object and create / invoke from a client process. Both the client and server communicates via pipe.   
+Foundational and minimalistic framework illustrating the interprocess hosting of a C++ Object, enabling invocation by a Remote Client. The network layer between client and serrver is implemented as pipes.
 
 1.  Functionalities:
 
